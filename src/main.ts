@@ -1,5 +1,7 @@
 import "./style.css";
 import { liftingLotToDate } from "./logic/lifting";
+import { roundLotToDate } from "./logic/round";
+import { hrsLotToDate } from "./logic/hrs";
 
 // formの取得
 const forms = document.querySelectorAll<HTMLFormElement>(".lot-form");
@@ -22,6 +24,8 @@ forms.forEach((form) => {
     const category = form.dataset.category;
     let date: string | null;
     if (category === "lifting") date = liftingLotToDate(lotNo);
+    else if (category === "round") date = roundLotToDate(lotNo);
+    else if (category === "hrs") date = hrsLotToDate(lotNo);
     else date = null;
 
     result.textContent = date ?? "該当する製造年月がみつかりませんでした";
