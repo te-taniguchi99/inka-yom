@@ -33,12 +33,15 @@ forms.forEach((form) => {
 });
 
 // 入力欄には数字とハイフン以外を入力できないようにする
+// （ラウンドは末尾に"H"が付くパターンがあるため、H/hのみ例外で許可する）
 const lotInputs = document.querySelectorAll<HTMLInputElement>(".lot-input");
 
 lotInputs.forEach((input) => {
+  const category = input.closest<HTMLFormElement>(".lot-form")?.dataset.category;
+  const allowedPattern = category === "round" ? /[^0-9Hh-]/g : /[^0-9-]/g;
+
   input.addEventListener("input", () => {
-    // 数字（0-9）とハイフン以外の文字を、入力されたそばから削除する
-    input.value = input.value.replace(/[^0-9-]/g, "");
+    input.value = input.value.replace(allowedPattern, "");
   });
 });
 
