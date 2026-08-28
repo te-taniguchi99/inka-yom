@@ -97,21 +97,25 @@
         <!-- デバッグ -->
         <p class="text-sm text-gray-500">デバッグ用サンプル入力</p>
         <div class="flex gap-2 flex-wrap">
-          <button type="button" class="btn btn-sm debug-fill-btn" data-sample="2402001">和暦7桁</button>
-          <button type="button" class="btn btn-sm debug-fill-btn" data-sample="25000106">西暦8桁</button>
-          <button type="button" class="btn btn-sm debug-fill-btn" data-sample="2511-0001">西暦9桁</button>
-          <button type="button" class="btn btn-sm debug-fill-btn" data-sample="250210">西暦6桁</button>
+          <button type="button" class="btn btn-sm debug-fill-btn" data-sample="2508-1234H">10桁(西暦確定)</button>
+          <button type="button" class="btn btn-sm debug-fill-btn" data-sample="170203">6桁(和暦確定)</button>
+          <button type="button" class="btn btn-sm debug-fill-btn" data-sample="250203">6桁(重複ゾーン)</button>
+          <button type="button" class="btn btn-sm debug-fill-btn" data-sample="24020">該当なし例</button>
         </div>
       </div>
       <!-- 入力 -->
       <div class="pt-1 mt-2">
-        <p>6桁から8桁の数字を入力してください｡ハイフンがある場合は略さず入力してください｡</p>
+        <p>10桁（yymm-xxxxH）または6桁の数字を入力してください（例：2508-1234H）｡</p>
+        <label class="label cursor-pointer gap-2 w-fit">
+          <input type="checkbox" class="checkbox qr-checkbox" />
+          <span class="label-text">製品にQRコード（TMS）が付いている</span>
+        </label>
         <form class="lot-form flex gap-2" data-category="round">
           <input
             type="text"
             class="lot-input input input-bordered"
             placeholder="ロット番号を入力"
-            inputmode="numeric"
+            inputmode="text"
           />
           <button type="submit" class="btn btn-primary">表示</button>
         </form>
@@ -143,15 +147,18 @@
         <!-- デバッグ -->
         <p class="text-sm text-gray-500">デバッグ用サンプル入力</p>
         <div class="flex gap-2 flex-wrap">
-          <button type="button" class="btn btn-sm debug-fill-btn" data-sample="2402001">和暦7桁</button>
-          <button type="button" class="btn btn-sm debug-fill-btn" data-sample="25000106">西暦8桁</button>
-          <button type="button" class="btn btn-sm debug-fill-btn" data-sample="2511-0001">西暦9桁</button>
-          <button type="button" class="btn btn-sm debug-fill-btn" data-sample="250210">西暦6桁</button>
+          <button type="button" class="btn btn-sm debug-fill-btn" data-sample="1702034">和暦確定例</button>
+          <button type="button" class="btn btn-sm debug-fill-btn" data-sample="2502001">重複ゾーン例</button>
+          <button type="button" class="btn btn-sm debug-fill-btn" data-sample="123">該当なし例</button>
         </div>
       </div>
       <!-- 入力 -->
       <div class="pt-1 mt-2">
-        <p>6桁から8桁の数字を入力してください｡ハイフンがある場合は略さず入力してください｡</p>
+        <p>7桁の数字（eemmxxx）を入力してください｡</p>
+        <label class="label cursor-pointer gap-2 w-fit">
+          <input type="checkbox" class="checkbox qr-checkbox" />
+          <span class="label-text">製品にQRコード（TMS）が付いている</span>
+        </label>
         <form class="lot-form flex gap-2" data-category="hrs">
           <input
             type="text"

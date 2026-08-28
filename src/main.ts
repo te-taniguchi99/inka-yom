@@ -1,5 +1,7 @@
 import "./style.css";
 import { liftingLotToDate } from "./logic/lifting";
+import { roundLotToDate } from "./logic/round";
+import { hrsLotToDate } from "./logic/hrs";
 
 // formの取得
 const forms = document.querySelectorAll<HTMLFormElement>(".lot-form");
@@ -11,6 +13,8 @@ forms.forEach((form) => {
 
     const input = form.querySelector<HTMLInputElement>(".lot-input")!;
     const result = form.parentElement!.querySelector<HTMLElement>(".lot-result")!;
+    const section = form.closest<HTMLElement>(".lot-section")!;
+    const hasQrCode = section.querySelector<HTMLInputElement>(".qr-checkbox")?.checked ?? false;
 
     const lotNo = input.value.trim();
     if (lotNo === "") {
@@ -22,6 +26,8 @@ forms.forEach((form) => {
     const category = form.dataset.category;
     let date: string | null;
     if (category === "lifting") date = liftingLotToDate(lotNo);
+    else if (category === "round") date = roundLotToDate(lotNo, hasQrCode);
+    else if (category === "hrs") date = hrsLotToDate(lotNo, hasQrCode);
     else date = null;
 
     result.textContent = date ?? "該当する製造年月がみつかりませんでした";
@@ -29,12 +35,15 @@ forms.forEach((form) => {
 });
 
 // 入力欄には数字とハイフン以外を入力できないようにする
+// （ラウンドは末尾に"H"が付くパターンがあるため、H/hのみ例外で許可する）
 const lotInputs = document.querySelectorAll<HTMLInputElement>(".lot-input");
 
 lotInputs.forEach((input) => {
+  const category = input.closest<HTMLFormElement>(".lot-form")?.dataset.category;
+  const allowedPattern = category === "round" ? /[^0-9Hh-]/g : /[^0-9-]/g;
+
   input.addEventListener("input", () => {
-    // 数字（0-9）とハイフン以外の文字を、入力されたそばから削除する
-    input.value = input.value.replace(/[^0-9-]/g, "");
+    input.value = input.value.replace(allowedPattern, "");
   });
 });
 

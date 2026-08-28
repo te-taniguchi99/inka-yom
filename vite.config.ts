@@ -4,6 +4,7 @@ import { defineConfig } from 'vite'
 import tailwindcss from '@tailwindcss/vite' // Tailwind公式のViteプラグイン
 
 export default defineConfig({
+  base: '/inka-yom/', // IISの仮想ディレクトリ(http://server/inka-yom/)配下に公開するためのベースパス
   plugins: [
     tailwindcss(), // Viteのビルド処理にTailwindを組み込む
   ],
