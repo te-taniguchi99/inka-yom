@@ -4,8 +4,8 @@
 //   ・2019年以降は西暦下2桁     → 西暦 = 2000 + ee
 // 同じ桁数・同じ位置の数字のため、ee=19〜30 は平成19〜30年(2007〜2018年)にも
 // 西暦2019〜2030年にも解釈できてしまい機械的に判定できない。
-// そのため ee<=18 は和暦確定、ee>=31 は西暦確定とし、19〜30 は安全側に倒して
-// 「確定できない製品」として扱う。
+// ただし2024年2月以降の製品にはTMSのQRコードが付くようになったため、
+// QRコードが付いている場合は西暦確定として扱う。
 
 import { isValidManufactureDate } from "./validateDate";
 
@@ -14,7 +14,7 @@ const UNKNOWN_PRODUCT_MESSAGE =
 
 const HRS_LOT_PATTERN = /^(\d{2})(\d{2})\d{3}$/;
 
-export function hrsLotToDate(lotNo: string): string | null {
+export function hrsLotToDate(lotNo: string, hasQrCode: boolean): string | null {
   const match = HRS_LOT_PATTERN.exec(lotNo);
   if (!match) {
     return UNKNOWN_PRODUCT_MESSAGE;
@@ -24,7 +24,10 @@ export function hrsLotToDate(lotNo: string): string | null {
   const mm = Number(match[2]);
 
   let year: number;
-  if (ee <= 18) {
+  if (hasQrCode) {
+    // QRコード（TMS）付きは2024年2月以降の製品のため西暦確定
+    year = 2000 + ee;
+  } else if (ee <= 18) {
     // 平成年（〜2018年）
     year = 1988 + ee;
   } else if (ee >= 31) {

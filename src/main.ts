@@ -13,6 +13,8 @@ forms.forEach((form) => {
 
     const input = form.querySelector<HTMLInputElement>(".lot-input")!;
     const result = form.parentElement!.querySelector<HTMLElement>(".lot-result")!;
+    const section = form.closest<HTMLElement>(".lot-section")!;
+    const hasQrCode = section.querySelector<HTMLInputElement>(".qr-checkbox")?.checked ?? false;
 
     const lotNo = input.value.trim();
     if (lotNo === "") {
@@ -24,8 +26,8 @@ forms.forEach((form) => {
     const category = form.dataset.category;
     let date: string | null;
     if (category === "lifting") date = liftingLotToDate(lotNo);
-    else if (category === "round") date = roundLotToDate(lotNo);
-    else if (category === "hrs") date = hrsLotToDate(lotNo);
+    else if (category === "round") date = roundLotToDate(lotNo, hasQrCode);
+    else if (category === "hrs") date = hrsLotToDate(lotNo, hasQrCode);
     else date = null;
 
     result.textContent = date ?? "該当する製造年月がみつかりませんでした";
